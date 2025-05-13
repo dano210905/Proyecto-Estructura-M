@@ -44,8 +44,8 @@ public class Parqueadero
        Object objaux;
        //opciones para los menu
        int resp,f=-1,c=-1,opMPpal,opInfBase,opManArc,opManEst,opCRUDCel,opCRUDCli;
-       int opCRUDFac,opCRUDDetFac, opCRUDEmp, opCRUDPreSer, opCRUDSer, opCRUDVeh, opManPi, opManco, opLDVeh;
-       String pl,texto;
+       int opCRUDFac,opCRUDDetFac, opCRUDEmp, opCRUDPreSer, opCRUDSer, opCRUDVeh, opManPi, opManco, opLDVeh, ManTurno;
+       String pl,texto, id;
    
        do{//mientras del menu principal
            opMPpal=Validaciones.LeerInt(objm.MenuPrincipal());
@@ -144,7 +144,7 @@ public class Parqueadero
                                                     switch(opCRUDVeh)
                                                       {
                                                           case 1://ingresar datos en el archivo de vehiculos
-                                                                  pl=Validaciones.LeerString("ingrese placa a grabar: ");
+                                                                  pl=Validaciones.LeerString("ingrese placa a grabar:");
                                                                   objcrudv.IngresarVehiculo(objarc, pl);
                                                                 break;
                                                           case 2://se llama al metodo mostrar todo el archivo
@@ -182,7 +182,11 @@ public class Parqueadero
                                                                   else
                                                                       JOptionPane.showMessageDialog(null,"la cola de celdas es:\n"+objMC.JuntarCola(objc, objca));
                                                                   break;
-                                                       }//fin caso opManco
+                                                       }
+
+
+
+                                                     //fin caso opManco
                                                    }while(opManco<6);
                                                    break;
                                             case 7://pila de servicios
@@ -200,6 +204,51 @@ public class Parqueadero
                                                        }//fin caso opManpi
                                                    }while(opManPi<6);
                                                    break; 
+                                             case 8:
+                                                 
+                                               int fila = Validaciones.LeerInt("Ingrese el número de filas de la matriz");
+                                                int columna = Validaciones.LeerInt("Ingrese el número de columnas de la matriz");
+                                                mat = new Object[fila][columna];
+                                                
+                                                   do{    
+                                                
+                                                     ManTurno = Validaciones.LeerInt(objm.MenuMatrizTurnos());
+                                                
+                                                    switch(ManTurno){
+                                                        
+                                                        case 1:
+                                                           
+                                                            objManMat.LlenarMatrizTurnos(mat, fila, columna);
+                                                                 
+                                                           break;
+                                                           
+                                                        case 2: String m = objManMat.JuntarMatrizTurnos(mat, fila, columna);
+                                                            JOptionPane.showMessageDialog(null,"Turnos existentes: " + m);
+                                                            
+                                                           break; 
+                                                           
+                                                        case 3:
+                                                            id = Validaciones.LeerString("ingrese el id del turno a buscar:");
+                                                           Object t =objManMat.BuscarTurnoEspecifico(mat, fila, columna, id);
+                                                            JOptionPane.showMessageDialog(null,"datos del id encontrado:" + t.toString());
+                                                            break;
+                                                            
+                                                        case 4:
+                                                            id = Validaciones.LeerString("ingrese el id del turno a eliminar:");
+                                                            objManMat.EliminarTurno(mat, fila, columna, id);
+                                                            JOptionPane.showMessageDialog(null,"El dato fue eliminado");
+                                                            break;
+                                                        case 5:
+                                                            id = Validaciones.LeerString("Ingrese id a actualizar");
+                                                            objManMat.ActualizarTurno(mat, fila, columna, id);
+                                                            JOptionPane.showMessageDialog(null,"Los datos fueron actualizados");
+                                                            break;
+                                                    }
+                                               
+                                                   }while(ManTurno<6);
+                                           
+                                                      break;
+                                                
                                             case 9: do{//ciclo mientras del menu de listas doble de vehiculos 
                                                         opLDVeh=Validaciones.LeerInt(objm.MenuLDVehiculos());
                                                     switch(opLDVeh)
