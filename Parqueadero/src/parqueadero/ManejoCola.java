@@ -56,5 +56,36 @@ public class ManejoCola
         Devolver(c2,c1);
         return texto;
     }//fin juntar
+
+    public boolean Buscar(Cola c1, Cola c2, String idb) {
+        boolean sw = false;
+        Object info;
+        while (c1.IsEmpty() == false) {
+            info = c1.Pop();
+            if (((Servicios) info).getId().equalsIgnoreCase(idb)) {
+                sw = true;
+            }
+            //Fin si
+            c2.Push(info);
+        }//Fin Mientras
+        Devolver(c2, c1);
+        return sw;
+    } //Fin Buscar
+    
+    public boolean BuscarDis(Cola c1, Cola c2, String idb) {
+        boolean sw = false;
+        Object info;
+        while (c1.IsEmpty() == false) {
+            info = c1.Pop();
+            if (((Celdas) info).getId().equalsIgnoreCase(idb)) {
+                if(((Celdas) info).getEstado().equalsIgnoreCase("Disponible"))
+                sw = true;
+            }
+            //Fin si
+            c2.Push(info);
+        }//Fin Mientras
+        Devolver(c2,c1);
+        return sw;
+    } //Fin BuscarDis
     
 }//fin clase manejo de cola
