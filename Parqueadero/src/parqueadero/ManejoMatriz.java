@@ -2,10 +2,12 @@
 package parqueadero;
 
 import javax.swing.JOptionPane;
-
+import java.time.LocalDate;
 
 public class ManejoMatriz 
 {
+    
+   
     
     /*metodo que ingresa los datos en la matriz vehiculos, lo elaboramos
     por aca en esta clase porque no es propio de la clase matriz, debido a
@@ -239,6 +241,119 @@ boolean sw=false;//variable de retorno, queda en falso si no se graba nada
        
         return acumModelo/maxc;
     }//fin acumular
+    
+    //-------------------------------------------------------------------------
+    //
+    // MATRIZ DE TURNOS
+    //
+    //-------------------------------------------------------------------------
+    
+    
+    public Object[][] LlenarMatrizTurnos(Object[][] mat, int maxf, int maxc){
+        
+        int i, j;
+        Turnos objTurno = new Turnos();
+        String id;
+
+        for (i = 0; i < maxf; i++) {
+            for (j = 0; j < maxc; j++) {
+                id = Validaciones.LeerString("Ingrese el ID del turno:");
+                mat[i][j] = objTurno.IngresarDatos(id);
+            }
+        }
+        return mat;
+    }
+    
+public String JuntarMatrizTurnos(Object mat[][], int maxF, int maxC) {
+    int i, j;
+    String texto = "";
+
+    for (i = 0; i < maxF; i++) {
+        for (j = 0; j < maxC; j++) {
+            if (mat[i][j] != null) {
+                texto += mat[i][j].toString() + "\n";
+            } else {
+                texto += "[Vacío]\n";
+            }
+        }
+    }
+
+    return texto;
+}
+    
+public boolean BuscarTurno(Object mat[][], int f, int c, String id)
+{
+boolean sw=false;
+int i,j;
+for(i=0;i<=f-1;i++)//ciclo filas
+        {
+            for(j=0;j<=c-1;j++)//ciclo columnas
+            {
+             if(id.equalsIgnoreCase(((Turnos)mat[i][j]).getId()))
+		sw=true;
+	     //fin si
+            }//fin para j
+        }//fin para i 	
+return sw;
+}
+
+    
+public Object BuscarTurnoEspecifico(Object mat[][],int f,int c, String id)
+{
+Object objT=null;//variable local de retorno
+
+if(BuscarTurno(mat,f,c, id)==true)//si vehiculo esta en la matriz
+{
+int i,j;
+for(i=0;i<=f-1;i++)//ciclo filas
+        {
+            for(j=0;j<=c-1;j++)//ciclo columnas
+            {
+             if(id.equalsIgnoreCase(((Turnos)mat[i][j]).getId()))
+		objT=mat[i][j];
+	     //fin si
+            }//fin para j
+        }//fin para i 
+}
+else
+         JOptionPane.showMessageDialog(null,"El turno NO esta almacenado en la matriz");	
+//Fin si
+return objT;
+}
+
+public boolean EliminarTurno(Object[][] mat, int maxf, int maxc, String id) {
+    for (int i = 0; i < maxf; i++) {
+        for (int j = 0; j < maxc; j++) {
+            if (id.equalsIgnoreCase(((Turnos) mat[i][j]).getId())) {
+                mat[i][j] = null;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+public boolean ActualizarTurno(Object[][] mat, int maxf, int maxc, String id) {
+    for (int i = 0; i < maxf; i++) {
+        for (int j = 0; j < maxc; j++) {
+            if (id.equalsIgnoreCase(((Turnos) mat[i][j]).getId())) {
+                // Reingresa datos para ese ID
+                Turnos nuevo = new Turnos().IngresarDatos(id);
+                mat[i][j] = nuevo;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+    
+    
+    
+    
+    
     
     //prueba de escritorio, para no tener que estar ingresando siempre
     
