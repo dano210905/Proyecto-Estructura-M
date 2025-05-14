@@ -4,7 +4,7 @@ import java.io.*;
 import javax.swing.JOptionPane;
 /**
  *
- * @author Andrés Bedoya Cifuentes e Isabela Bohada Valencia
+ * Modificado por Isabela Bohada Valencia e Andrés Bedoya Cifuentes 
  */
 public class CRUDCelda
 {
