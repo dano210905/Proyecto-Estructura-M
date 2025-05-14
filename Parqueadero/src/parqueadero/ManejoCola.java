@@ -1,4 +1,3 @@
-
 package parqueadero;
 
 import javax.swing.JOptionPane;
@@ -169,6 +168,27 @@ public Object Desencolar(Cola c1)
 {
     return c1.Pop();
 }
+/*Metodo de apoyo para PrestacionServicios*/
+// metodo para buscar la cola disponible 
+
+public boolean BuscarDis(Cola c1, Cola c2, String idb) {
+        boolean sw = false;
+        Object info;
+        while (c1.IsEmpty() == false) {
+            info = c1.Pop();
+            if (((Celdas) info).getId().equalsIgnoreCase(idb)) {
+                if(((Celdas) info).getEstado().equalsIgnoreCase("Disponible"))
+                sw = true;
+            }
+            //Fin si
+            c2.Push(info);
+        }//Fin Mientras
+        Devolver(c2,c1);
+        return sw;
+
+    }
+
+
 /*Metodo que desencola el ultimo dato ingresado*/
 
 public Object DesencolarUltimo (Cola c1, Cola c2)
