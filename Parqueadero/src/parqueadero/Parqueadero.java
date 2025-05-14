@@ -39,13 +39,15 @@ public class Parqueadero
        //clase manejo cola
        ManejoCola objMC=new ManejoCola();
        
-       //objeto vehiculo para recibir retornos
+       //objeto para recibir retornos
        Vehiculos objV=new Vehiculos();
+       Servicios objser=new Servicios();
        Object objaux;
+       Celdas objcel = new Celdas();
        //opciones para los menu
        int resp,f=-1,c=-1,opMPpal,opInfBase,opManArc,opManEst,opCRUDCel,opCRUDCli;
-       int opCRUDFac,opCRUDDetFac, opCRUDEmp, opCRUDPreSer, opCRUDSer, opCRUDVeh, opManPi, opManco, opLDVeh, ManTurno;
-       String pl,texto, id;
+       int opCRUDFac,opCRUDDetFac, opCRUDEmp, opCRUDPreSer, opCRUDSer, opCRUDVeh, opManPi, opManco, opLDVeh;
+       String pl,texto,id="";
    
        do{//mientras del menu principal
            opMPpal=Validaciones.LeerInt(objm.MenuPrincipal());
@@ -144,7 +146,7 @@ public class Parqueadero
                                                     switch(opCRUDVeh)
                                                       {
                                                           case 1://ingresar datos en el archivo de vehiculos
-                                                                  pl=Validaciones.LeerString("ingrese placa a grabar:");
+                                                                  pl=Validaciones.LeerString("ingrese placa a grabar: ");
                                                                   objcrudv.IngresarVehiculo(objarc, pl);
                                                                 break;
                                                           case 2://se llama al metodo mostrar todo el archivo
@@ -182,12 +184,47 @@ public class Parqueadero
                                                                   else
                                                                       JOptionPane.showMessageDialog(null,"la cola de celdas es:\n"+objMC.JuntarCola(objc, objca));
                                                                   break;
-                                                       }
-
-
-
-                                                     //fin caso opManco
-                                                   }while(opManco<6);
+                                                                  case 3: if(objc.IsEmpty()==true)//si no hay datos??
+                                                                     JOptionPane.showMessageDialog(null,"Cola de celdas vacia");
+                                                                   else{
+                                                                      id=Validaciones.LeerString("Ingrese id de celda a consultar");
+                                                                      objcel=(Celdas)objMC.ConsultarDato(objc, objca,id);
+                                                                      if(objcel!=null)
+                                                                          JOptionPane.showMessageDialog(null,"la celda consultada es:\n"+objcel.toString());
+                                                                      }//fin si
+                                                                  break;            
+                                                           case 4: if(objc.IsEmpty()==true)//si no hay datos??
+                                                                     JOptionPane.showMessageDialog(null,"Cola de celda vacia");
+                                                                   else{
+                                                                      id=Validaciones.LeerString("Ingrese id celda a eliminar");
+                                                                      objc=objMC.EliminarDato(objc, objca,id);
+                                                                      }//fin si
+                                                                  break;      
+                                                            case 5: if(objc.IsEmpty()==true)//si no hay datos??
+                                                                     JOptionPane.showMessageDialog(null,"Cola de celda vacia");
+                                                                   else{
+                                                                      id=Validaciones.LeerString("Ingrese id celda a modificar");
+                                                                      objc=objMC.ActualizarDatos(objc, objca,id);
+                                                                      }//fin si
+                                                                  break;   
+                                                                             case 6: if(objc.IsEmpty()==true)//si no hay datos??
+                                                                     JOptionPane.showMessageDialog(null,"Cola de celdas vacia");
+                                                                   else{
+                                                                     objcel=(Celdas)objMC.DesencolarUltimo(objc, objca);
+                                                                     if(objcel!=null)
+                                                                         JOptionPane.showMessageDialog(null, "El dato desencolado que estaba ultimo: \n"+objser.toString());
+                                                                      }//fin si
+                                                                  break;  
+                                                                     case 7: if(objp.IsEmpty()==true)//si no hay datos??
+                                                                     JOptionPane.showMessageDialog(null,"Pila de servicios vacia");
+                                                                   else{
+                                                                     objcel=(Celdas)objMC.Desencolar(objc);
+                                                                     if(objcel!=null)
+                                                                         JOptionPane.showMessageDialog(null, "El dato DESENCOLADO que estaba primero: \n"+objcel.toString());
+                                                                      }//fin si
+                                                                  break;   
+                                                       }//fin caso opManco
+                                                   }while(opManco<8);
                                                    break;
                                             case 7://pila de servicios
                                                    do{
@@ -201,54 +238,48 @@ public class Parqueadero
                                                                   else
                                                                       JOptionPane.showMessageDialog(null,"la pila de servicios es:\n"+objMP.JuntarPila(objp, objpa));
                                                                   break;
+                                                           case 3: if(objp.IsEmpty()==true)//si no hay datos??
+                                                                     JOptionPane.showMessageDialog(null,"Pila de servicios vacia");
+                                                                   else{
+                                                                      id=Validaciones.LeerString("Ingrese id servicio a consultar");
+                                                                      objser=(Servicios)objMP.ConsultarDato(objp, objpa,id);
+                                                                      if(objser!=null)
+                                                                          JOptionPane.showMessageDialog(null,"El servicio consultado es:\n"+objser.toString());
+                                                                      }//fin si
+                                                                  break;            
+                                                           case 4: if(objp.IsEmpty()==true)//si no hay datos??
+                                                                     JOptionPane.showMessageDialog(null,"Pila de servicios vacia");
+                                                                   else{
+                                                                      id=Validaciones.LeerString("Ingrese id servicio a eliminar");
+                                                                      objp=objMP.EliminarDato(objp, objpa,id);
+                                                                      }//fin si
+                                                                  break;      
+                                                            case 5: if(objp.IsEmpty()==true)//si no hay datos??
+                                                                     JOptionPane.showMessageDialog(null,"Pila de servicios vacia");
+                                                                   else{
+                                                                      id=Validaciones.LeerString("Ingrese id servicio a modificar");
+                                                                      objp=objMP.ActualizarDatos(objp, objpa,id);
+                                                                      }//fin si
+                                                                  break;      
+                                                                     case 6: if(objp.IsEmpty()==true)//si no hay datos??
+                                                                     JOptionPane.showMessageDialog(null,"Pila de servicios vacia");
+                                                                   else{
+                                                                     objser=(Servicios)objMP.DesapilarPrimero(objp, objpa);
+                                                                     if(objser!=null)
+                                                                         JOptionPane.showMessageDialog(null, "El dato desapilado que estaba primero: \n"+objser.toString());
+                                                                      }//fin si
+                                                                  break;  
+                                                                     case 7: if(objp.IsEmpty()==true)//si no hay datos??
+                                                                     JOptionPane.showMessageDialog(null,"Pila de servicios vacia");
+                                                                   else{
+                                                                     objser=(Servicios)objMP.Desapilar(objp);
+                                                                     if(objser!=null)
+                                                                         JOptionPane.showMessageDialog(null, "El dato desapilado que estaba primero: \n"+objser.toString());
+                                                                      }//fin si
+                                                                  break;   
                                                        }//fin caso opManpi
-                                                   }while(opManPi<6);
+                                                   }while(opManPi<8);
                                                    break; 
-                                             case 8:
-                                                 
-                                               int fila = Validaciones.LeerInt("Ingrese el número de filas de la matriz");
-                                                int columna = Validaciones.LeerInt("Ingrese el número de columnas de la matriz");
-                                                mat = new Object[fila][columna];
-                                                
-                                                   do{    
-                                                
-                                                     ManTurno = Validaciones.LeerInt(objm.MenuMatrizTurnos());
-                                                
-                                                    switch(ManTurno){
-                                                        
-                                                        case 1:
-                                                           
-                                                            objManMat.LlenarMatrizTurnos(mat, fila, columna);
-                                                                 
-                                                           break;
-                                                           
-                                                        case 2: String m = objManMat.JuntarMatrizTurnos(mat, fila, columna);
-                                                            JOptionPane.showMessageDialog(null,"Turnos existentes: " + m);
-                                                            
-                                                           break; 
-                                                           
-                                                        case 3:
-                                                            id = Validaciones.LeerString("ingrese el id del turno a buscar:");
-                                                           Object t =objManMat.BuscarTurnoEspecifico(mat, fila, columna, id);
-                                                            JOptionPane.showMessageDialog(null,"datos del id encontrado:" + t.toString());
-                                                            break;
-                                                            
-                                                        case 4:
-                                                            id = Validaciones.LeerString("ingrese el id del turno a eliminar:");
-                                                            objManMat.EliminarTurno(mat, fila, columna, id);
-                                                            JOptionPane.showMessageDialog(null,"El dato fue eliminado");
-                                                            break;
-                                                        case 5:
-                                                            id = Validaciones.LeerString("Ingrese id a actualizar");
-                                                            objManMat.ActualizarTurno(mat, fila, columna, id);
-                                                            JOptionPane.showMessageDialog(null,"Los datos fueron actualizados");
-                                                            break;
-                                                    }
-                                               
-                                                   }while(ManTurno<6);
-                                           
-                                                      break;
-                                                
                                             case 9: do{//ciclo mientras del menu de listas doble de vehiculos 
                                                         opLDVeh=Validaciones.LeerInt(objm.MenuLDVehiculos());
                                                     switch(opLDVeh)
@@ -584,3 +615,4 @@ public class Parqueadero
     
     
 }//fin clase parqueadero
+
