@@ -4,6 +4,9 @@ package parqueadero;
 /**
  *
  * @author Tomas Vargas y Juan pablo Acevedo 
+ * 
+ *  Modificado por Yamil Alejandro Palacios, Maria Isabel Monsalve, Ferney Esteban Henao, Maritza
+     Problemas en detalles factura
  */
 public class DetallesFactura 
 {
@@ -22,6 +25,7 @@ public class DetallesFactura
         this.Id = Id;
         this.IdFactura = IdFactura;
         this.IdServicio = IdServicio;
+        
     }
     
     
@@ -29,10 +33,9 @@ public class DetallesFactura
     /*ingresar datos recibe el id del detalle
     recibe el Id de factura que exista!
     y el Id de servicio que exista*/
-    public DetallesFactura IngresarDatos(String Id, String IdFactura, String IdServicio){
-        
-        this.Id= Id;
-        return this ;//para no error
+    public DetallesFactura IngresarDatos(String Id, String IdFactura, String IdServicio){     
+        DetallesFactura objf = new DetallesFactura(Id, IdFactura, IdServicio);
+        return objf;       
     }
 
 //Metodo ToString
@@ -71,3 +74,4 @@ public class DetallesFactura
     }
     
 }//fin clase detalles de factura
+
