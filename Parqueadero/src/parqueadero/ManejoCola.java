@@ -56,36 +56,148 @@ public class ManejoCola
         Devolver(c2,c1);
         return texto;
     }//fin juntar
+    
+    public boolean Buscar(Cola c1, Cola c2, String idb)
+{
+boolean sw=false;
+Object info;
+while(c1.IsEmpty()==false)
+{
+info=c1.Pop();
+if(((Celdas)info).getId().equalsIgnoreCase(idb))
+	sw=true;
+//fin si
+c2.Push(info);//para no peder dato
+}//fin mientras
+Devolver(c2,c1);
+return sw;
+}//fin
 
-    public boolean Buscar(Cola c1, Cola c2, String idb) {
-        boolean sw = false;
-        Object info;
-        while (c1.IsEmpty() == false) {
-            info = c1.Pop();
-            if (((Servicios) info).getId().equalsIgnoreCase(idb)) {
-                sw = true;
-            }
-            //Fin si
-            c2.Push(info);
-        }//Fin Mientras
-        Devolver(c2, c1);
-        return sw;
-    } //Fin Buscar
+public Cola EliminarDato(Cola c1, Cola c2, String ide)
+{
+Object info;
+if(Buscar(c1,c2,ide)==false)
+       JOptionPane.showMessageDialog(null,"Dato a eliminar no se encuentra en la cola");
+else
+{
+while(c1.IsEmpty()==false)
+{
+    info=c1.Pop();
+    if(!(((Celdas)info).getId().equalsIgnoreCase(ide)))
+       c2.Push(info);
+    //fin si
+}//fin mientras
+Devolver(c2,c1);
+JOptionPane.showMessageDialog(null,"Dato se elimina de la cola "+ide);
+}//Fin si
+return c1;
+}//Fin 
+
+
+public Object ConsultarDato(Cola c1, Cola c2, String idc)
+{
+Object info,datoc=null;
+if(Buscar(c1,c2,idc)==false)
+       JOptionPane.showMessageDialog(null,"Dato a consultar no se encuentra en la cola");
+else
+{
+while(c1.IsEmpty()==false)
+{
+    info=c1.Pop();
+    if(((Celdas)info).getId().equalsIgnoreCase(idc))
+      datoc=info;
+    //fin si
+    c2.Push(info);
+}//fin mientras
+Devolver(c2,c1);
+}//Fin si
+return datoc;
+}//Fin 
+
+public Cola ActualizarDatos(Cola c1, Cola c2, String idm)
+{
+Object  info;
+int op,resp;
+String Ubi,TiVe;
+String Est;
+if(Buscar(c1,c2,idm)==false)
+        JOptionPane.showMessageDialog(null,"Dato a modificar no se encuentra en la cola");
+else
+{
+    while(c1.IsEmpty()==false)
+    {
+    info=c1.Pop();
+    if(((Celdas)info).getId().equalsIgnoreCase(idm))
+    {
+        Ubi=((Celdas)info).getUbicacion();
+        TiVe=((Celdas)info).getTipoVehiculo();
+   
+       Est=((Celdas)info).getEstado();	
+	do{	      
+	   op=Validaciones.LeerInt("menú actualización"+
+				   "Id= "+ idm+"\n"+
+                                   "1. Ubicacion de la celda= "+Ubi+"\n"+
+                                   "2. Tipo de vehiculo= "+TiVe+"\n"+
+                                   "3. Disponibilidad (Estado)= "+ Est+"\n"+        
+                                   "4. Terminar la actualización");
+           switch(op)// En caso(op)	
+           {
+	    case 1: Ubi=Validaciones.LeerString("ubicacion de la celda");
+                    break; 
+	    case 2: TiVe=Validaciones.LeerTipoVehiculo();
+                    break;
+            case 3: Est=Validaciones.LeerDisponibilidad();
+                    break;
+           }//Fin caso
+        }while(op<4);
+        resp=JOptionPane.showConfirmDialog(null,"Grabar los cambios?","Actualiza",JOptionPane.YES_OPTION);
+        if(resp==JOptionPane.YES_OPTION)
+        {
+            ((Celdas)info).setUbicacion(Ubi);
+            ((Celdas)info).setTipoVehiculo(TiVe);
+            ((Celdas)info).setEstado(Est);
+        }//Fin si
+    }//finsi
+    c2.Push(info);
+    }//fin mientras
+Devolver(c2,c1);
+}//fin si 
+return c1;
+}//fin
+    /*Metodo que desencola el primer dato ingresado*/
+public Object Desencolar(Cola c1)
+{
+    return c1.Pop();
+}
+/*Metodo que desencola el ultimo dato ingresado*/
+
+public Object DesencolarUltimo (Cola c1, Cola c2)
+{
+    Object info = null;
+    int cont=ContarElementos(c1, c2);
+     while (c1.IsEmpty()== false)
+    {
+        
+    if(cont==1)//si llegamos al ultimo dato
     
-    public boolean BuscarDis(Cola c1, Cola c2, String idb) {
-        boolean sw = false;
-        Object info;
-        while (c1.IsEmpty() == false) {
-            info = c1.Pop();
-            if (((Celdas) info).getId().equalsIgnoreCase(idb)) {
-                if(((Celdas) info).getEstado().equalsIgnoreCase("Disponible"))
-                sw = true;
-            }
-            //Fin si
-            c2.Push(info);
-        }//Fin Mientras
-        Devolver(c2,c1);
-        return sw;
-    } //Fin BuscarDis
-    
+        info=c1.Pop();
+    else{
+        c2.Push(c1.Pop());
+        cont--; //para decrementar y llegar al ultimo de cola
+    }//fin si
+    }//fin mientras
+     return info;
+}
+
+public int ContarElementos (Cola c1, Cola c2)
+{
+    int cont = 0; //contador de retorno
+    while (c1.IsEmpty()== false)
+    {
+        c2.Push(c1.Pop());
+        cont++;
+    }
+   Devolver(c2, c1);
+   return cont;
+}
 }//fin clase manejo de cola
